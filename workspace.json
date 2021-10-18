@@ -1,0 +1,130 @@
+{
+  "version": 2,
+  "projects": {
+    "weathers": {
+      "root": "apps/weathers",
+      "sourceRoot": "apps/weathers/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/weathers",
+            "index": "apps/weathers/src/index.html",
+            "baseHref": "/",
+            "main": "apps/weathers/src/main.tsx",
+            "polyfills": "apps/weathers/src/polyfills.ts",
+            "tsConfig": "apps/weathers/tsconfig.app.json",
+            "assets": [
+              "apps/weathers/src/favicon.ico",
+              "apps/weathers/src/assets"
+            ],
+            "styles": ["apps/weathers/src/styles.css"],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/weathers/src/environments/environment.ts",
+                  "with": "apps/weathers/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "weathers:build",
+            "hmr": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "weathers:build:production",
+              "hmr": false
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/weathers/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/weathers"],
+          "options": {
+            "jestConfig": "apps/weathers/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "weathers-e2e": {
+      "root": "apps/weathers-e2e",
+      "sourceRoot": "apps/weathers-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/weathers-e2e/cypress.json",
+            "devServerTarget": "weathers:serve",
+            "tsConfig": "apps/weathers-e2e/tsconfig.json"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "weathers:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/weathers-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "css",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "css"
+      },
+      "library": {
+        "style": "css",
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "weathers"
+}
